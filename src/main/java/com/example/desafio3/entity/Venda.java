@@ -3,7 +3,12 @@ package com.example.desafio3.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.desafio3.entity.enums.StatusVenda;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,11 +24,14 @@ public class Venda {
     private Long id;
 
     private LocalDateTime dataVenda;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVenda status;
+
     private Double total;
     private Boolean pago;
 
-    @OneToMany(mappedBy = "Venda")
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Carrinho> itens;
 
 }

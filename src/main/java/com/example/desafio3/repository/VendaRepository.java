@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.desafio3.entity.Venda;
 
 public interface VendaRepository extends JpaRepository<Venda, Long> {
-    List<Venda> findByDataVenda(LocalDateTime inico, LocalDateTime fim);
+    List<Venda> findByDataVendaBetween(LocalDateTime inico, LocalDateTime fim);
 }

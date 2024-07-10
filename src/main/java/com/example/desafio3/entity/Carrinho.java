@@ -28,6 +28,6 @@ public class Carrinho {
     private Venda venda;
 
     @NotNull
-    @Min(value = 1, message = "A quantidade deve ser no mínimo 1")
+    @Min(1)
     private Integer quantidade;
 }

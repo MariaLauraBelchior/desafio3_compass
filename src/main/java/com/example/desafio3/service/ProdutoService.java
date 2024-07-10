@@ -39,7 +39,7 @@ public class ProdutoService {
         return product.get();
     }
 
-    public Produto atualizarProduto(Long id, Produto produtoAtualizado ) { //
+    public Produto atualizarProduto(Long id, Produto produtoAtualizado ) { 
         Produto produto = buscarProdutoById(id);
         if (produtoAtualizado.getPreco() < 0) {
             throw new ProdutoInvalidoException("Preço do produto não pode ser negativo.");

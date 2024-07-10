@@ -19,7 +19,7 @@ import com.example.desafio3.service.ProdutoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/produtos")
+@RequestMapping("/api/produtos")
 public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
@@ -43,7 +43,7 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoService.buscarProdutoById(id));
     }
 
-    @PutMapping("/{id}") //
+    @PutMapping("/{id}") 
     public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody Produto produto) {
         return ResponseEntity.ok(produtoService.atualizarProduto(id, produto));
     }

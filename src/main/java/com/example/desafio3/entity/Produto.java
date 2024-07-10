@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Products")
+@Table(name = "Produtos")
 public class Produto {
     
     @Id
@@ -26,11 +26,11 @@ public class Produto {
     private String categoria;
 
     @NotNull
-    @Min(value = 0, message = "O preço deve ser positivo")
+    @Min(0)
     private Double preco;
 
     @NotNull
-    @Min(value = 0, message = "A quantidade em estoque deve ser positiva")
+    @Min(0)
     private Integer estoque;
 
     private Boolean ativo = true;  

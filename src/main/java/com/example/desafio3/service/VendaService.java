@@ -41,12 +41,36 @@ public class VendaService {
         return vendaRepository.save(venda);
     }
 
+    public Venda atualizarVenda(Long id, Venda vendaAtualizada) {
+        Venda vendaExistente = vendaRepository.findById(id)
+                .orElseThrow(() -> new VendaInvalidaException("Venda não encontrada."));
+        vendaAtualizada.setId(vendaExistente.getId());
+        return criarVenda(vendaAtualizada);
+    }
+
     public List<Venda> listaVenda() {
         return vendaRepository.findAll();
     }
 
-    public List<Venda> ListaVendaPorData(LocalDateTime inicio, LocalDateTime fim) {
-        return vendaRepository.findByDataVenda(inicio, fim);
+    public List<Venda> listaVendaPorData(LocalDateTime inicio, LocalDateTime fim) {
+        return vendaRepository.findByDataVendaBetween(inicio, fim);
+    }
+
+    public List<Venda> relatorioMensal(int ano, int mes) {
+        LocalDateTime inicio = LocalDateTime.of(ano, mes, 1, 0, 0);
+        LocalDateTime fim = inicio.plusMonths(1).minusSeconds(1);
+        return listaVendaPorData(inicio, fim);
+    }
+
+    public List<Venda> relatorioSemanal(LocalDateTime inicioDaSemana) {
+        LocalDateTime fimDaSemana = inicioDaSemana.plusDays(7).minusSeconds(1);
+        return listaVendaPorData(inicioDaSemana, fimDaSemana);
+    }
+
+    public void deletarVenda(Long id) {
+        Venda venda = vendaRepository.findById(id)
+                .orElseThrow(() -> new VendaInvalidaException("Venda não encontrada."));
+        vendaRepository.delete(venda);
     }
 
 }

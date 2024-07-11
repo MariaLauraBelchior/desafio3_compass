@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.desafio3.entity.Produto;
@@ -25,6 +27,7 @@ public class VendaService {
         this.vendaRepository = vendaRepository;
     }
 
+    @CacheEvict(value = "vendas", allEntries = true)
     public Venda criarVenda(Venda venda) {
         if (venda.getItens().isEmpty()) {
             throw new VendaInvalidaException("A venda deve ter pelo menos um produto.");
@@ -48,10 +51,12 @@ public class VendaService {
         return criarVenda(vendaAtualizada);
     }
 
+    @Cacheable(value = "vendas")
     public List<Venda> listaVenda() {
         return vendaRepository.findAll();
     }
 
+    @Cacheable(value = "vendas", key = "#inicio.toString() + '-' + #fim.toString()")
     public List<Venda> listaVendaPorData(LocalDateTime inicio, LocalDateTime fim) {
         return vendaRepository.findByDataVendaBetween(inicio, fim);
     }

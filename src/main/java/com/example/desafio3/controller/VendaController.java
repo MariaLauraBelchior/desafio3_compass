@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,14 +39,14 @@ public class VendaController {
 
     @GetMapping("/filtro")
     public ResponseEntity<List<Venda>> listaVendaPorData(
-            @RequestParam LocalDateTime inicio,
-            @RequestParam LocalDateTime fim) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
         return ResponseEntity.ok(vendaService.listaVendaPorData(inicio, fim));
     }
 
     @GetMapping("/relatorio/semanal")
     public ResponseEntity<List<Venda>> relatorioSemanal(
-            @RequestParam LocalDateTime inicioDaSemana) {
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicioDaSemana) {
         return ResponseEntity.ok(vendaService.relatorioSemanal(inicioDaSemana));
     }
 

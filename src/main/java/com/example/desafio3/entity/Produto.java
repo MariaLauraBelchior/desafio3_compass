@@ -5,9 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
@@ -19,18 +19,18 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "O nome não pode estar em branco")
     private String nome;
 
-    @NotBlank
+    @NotBlank(message = "A categoria não pode estar em branco")
     private String categoria;
 
     @NotNull
-    @Min(0)
+    @Positive(message = "O preço deve ser positivo")
     private Double preco;
 
-    @NotNull
-    @Min(0)
+    @NotNull(message = "O preço é obrigatório")
+    @Positive(message = "O preço deve ser positivo")
     private Integer estoque;
 
     private Boolean ativo = true;  

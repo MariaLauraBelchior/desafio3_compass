@@ -45,6 +45,7 @@ public class ProdutoService {
             throw new ProdutoInvalidoException("Preço do produto não pode ser negativo.");
         }
         produto.setNome(produtoAtualizado.getNome());
+        produto.setCategoria(produtoAtualizado.getCategoria());
         produto.setPreco(produtoAtualizado.getPreco());
         produto.setEstoque(produtoAtualizado.getEstoque());
         produto.setAtivo(produtoAtualizado.getAtivo());

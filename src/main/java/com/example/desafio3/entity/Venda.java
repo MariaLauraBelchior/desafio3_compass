@@ -30,10 +30,10 @@ public class Venda {
     @Enumerated(EnumType.STRING)
     private StatusVenda status;
 
-    private Double total;
-    private Boolean pago;
+    private Double valorTotal;
+    private Boolean pagamento;
 
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Carrinho> itens;
+    private List<ItemVenda> itens;
 
 }

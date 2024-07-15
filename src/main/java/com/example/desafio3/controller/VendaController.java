@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.desafio3.entity.Venda;
 import com.example.desafio3.service.VendaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -27,6 +29,8 @@ public class VendaController {
     @Autowired
     private VendaService vendaService;
 
+    @Operation
+    @ApiResponse
     @PostMapping
     public ResponseEntity<Venda> criarVenda(@Valid @RequestBody Venda venda ) {
         return ResponseEntity.ok(vendaService.criarVenda(venda));

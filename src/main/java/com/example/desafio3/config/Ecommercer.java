@@ -1,6 +1,6 @@
 package com.example.desafio3.config;
 
-import java.time.LocalDateTime;
+/*import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,13 +22,17 @@ public class Ecommercer implements CommandLineRunner {
     @Autowired
     private VendaRepository vendaRepository;
 
+    
+
     @Override
     public void run(String... args) throws Exception {
+
+
         Produto produto1 = new Produto();
-        produto1.setNome("Boneca");
+        produto1.setNome("Carrinho");
+        produto1.setCategoria("Brinquedo");
         produto1.setPreco(100.00);
         produto1.setEstoque(12);
-        produto1.setCategoria("Brinquedo");
         produto1.setAtivo(true);
 
         Venda venda1 = new Venda();
@@ -37,9 +41,10 @@ public class Ecommercer implements CommandLineRunner {
         venda1.setValorTotal(100.0);
         venda1.setPagamento(true);
 
-        produtoRepository.save(produto1);
 
+        produtoRepository.save(produto1);
         vendaRepository.save(venda1);
+        
     }
     
-}
+}*/

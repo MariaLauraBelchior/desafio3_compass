@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,24 +19,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.desafio3.entity.Usuario;
 import com.example.desafio3.entity.Venda;
 import com.example.desafio3.service.VendaService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/vendas")
+@RequestMapping("/vendas")
 public class VendaController {
     @Autowired
     private VendaService vendaService;
 
-    @Operation
-    @ApiResponse
+
     @PostMapping
-    public ResponseEntity<Venda> criarVenda(@Valid @RequestBody Venda venda ) {
-        return ResponseEntity.ok(vendaService.criarVenda(venda));
+    public ResponseEntity<Venda> criarVenda( @AuthenticationPrincipal Usuario usuario, @Valid @RequestBody Venda venda ) {
+        Venda novaVenda = vendaService.criarVenda(venda, usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novaVenda);
     }
 
     @GetMapping
@@ -48,6 +50,7 @@ public class VendaController {
         return ResponseEntity.ok(vendaService.listaVendaPorData(inicio, fim));
     }
 
+    
     @GetMapping("/relatorio/semanal")
     public ResponseEntity<List<Venda>> relatorioSemanal(
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicioDaSemana) {
@@ -55,11 +58,14 @@ public class VendaController {
     }
 
     @PutMapping("/{id}")
+   @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Venda> atualizarVenda(@PathVariable Long id, @Valid @RequestBody Venda vendaAtualizada) {
         return ResponseEntity.ok(vendaService.atualizarVenda(id, vendaAtualizada));
     }
 
+    
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarVenda(@PathVariable Long id) {
         vendaService.deletarVenda(id);
         return ResponseEntity.noContent().build();

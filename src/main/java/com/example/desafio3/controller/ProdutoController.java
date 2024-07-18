@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ import com.example.desafio3.service.ProdutoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/produtos")
+@RequestMapping("/produtos")
 public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
@@ -29,7 +30,9 @@ public class ProdutoController {
         this.produtoService = produtoService;
     }
 
+    
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Produto> criarProduto(@Valid @RequestBody Produto produto) {
         return ResponseEntity.ok(produtoService.criarProduto(produto));
     }
@@ -44,12 +47,16 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoService.buscarProdutoById(id));
     }
 
+
     @PutMapping("/{id}") 
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody Produto produto) {
         return ResponseEntity.ok(produtoService.atualizarProduto(id, produto));
     }
 
+    
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarProduto(@PathVariable Long id) {
         produtoService.deletarProduto(id);
         return ResponseEntity.noContent().build();
